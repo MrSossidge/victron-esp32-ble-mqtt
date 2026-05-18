@@ -194,3 +194,40 @@ Managed automatically by PlatformIO:
 ## Licence
 
 MIT
+
+---
+
+## Home Assistant Dashboard
+
+A ready-made dashboard card is included in `home-assistant/dashboard.yaml`.
+
+Requires these HACS frontend plugins:
+- [Mushroom](https://github.com/piitaya/lovelace-mushroom)
+- [Mini Graph Card](https://github.com/kalkih/mini-graph-card)
+
+To use: **Dashboard → Edit → Add Card → Manual** and paste the contents.
+
+## Template Sensors
+
+Optional calculated sensors are in `home-assistant/configuration_template.yaml`:
+
+- **Garage Net Battery Power** — battery current × voltage in watts (positive = charging)
+- **Garage Battery Status** — Charging / Discharging / Idle text sensor
+
+Add the `template:` block to your `configuration.yaml` and reload YAML.
+
+## Project Structure
+
+```
+├── home-assistant/
+│   ├── dashboard.yaml               # Ready-made HA dashboard card
+│   └── configuration_template.yaml  # Optional template sensors
+├── include/
+│   ├── config.h                     # Your config (excluded from git)
+│   ├── example.config.h             # Template — copy to config.h
+│   └── victron_ble.h                # BLE parser header
+├── src/
+│   ├── main.cpp                     # Main firmware
+│   └── victron_ble.cpp              # AES decryption and parser
+└── platformio.ini                   # PlatformIO build config
+```

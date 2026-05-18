@@ -1,0 +1,32 @@
+# ─────────────────────────────────────────────────────────────
+# Victron SmartSolar MPPT — Home Assistant configuration.yaml
+#
+# Add the template section below to your configuration.yaml
+# to create calculated sensors from the MPPT data.
+#
+# The MQTT sensors are created automatically via discovery —
+# no manual MQTT config needed.
+# ─────────────────────────────────────────────────────────────
+
+template:
+  - sensor:
+      # Net power in/out of battery (positive = charging, negative = discharging)
+      - name: "Garage Net Battery Power"
+        unit_of_measurement: "W"
+        device_class: power
+        state_class: measurement
+        state: >
+          {{ (states('sensor.victron_smartsolar_mppt_battery_current') | float *
+              states('sensor.victron_smartsolar_mppt_battery_voltage') | float) | round(1) }}
+
+      # Simple charging status text
+      - name: "Garage Battery Status"
+        state: >
+          {% set current = states('sensor.victron_smartsolar_mppt_battery_current') | float %}
+          {% if current > 0.1 %}
+            Charging
+          {% elif current < -0.1 %}
+            Discharging
+          {% else %}
+            Idle
+          {% endif %}

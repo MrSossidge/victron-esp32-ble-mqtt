@@ -1,0 +1,113 @@
+# ─────────────────────────────────────────────────────────────
+# Victron SmartSolar MPPT — Home Assistant Dashboard
+#
+# Requires:
+#   - custom:mushroom-entity-card  (HACS → Mushroom)
+#   - custom:mushroom-title-card   (HACS → Mushroom)
+#   - custom:mini-graph-card       (HACS → Mini Graph Card)
+#
+# To use: Dashboard → Edit → Add Card → Manual → paste this YAML
+# ─────────────────────────────────────────────────────────────
+
+type: vertical-stack
+cards:
+  - type: custom:mushroom-title-card
+    title: ⚡ Garage Solar
+    subtitle: Victron MPPT Monitor
+
+  - type: custom:mushroom-title-card
+    title: Power Overview
+    subtitle: Solar generation and battery status
+  - type: horizontal-stack
+    cards:
+      - type: custom:mushroom-entity-card
+        entity: sensor.victron_smartsolar_mppt_pv_power
+        name: Solar In
+        icon: mdi:solar-power
+        primary_info: name
+        secondary_info: state
+      - type: custom:mushroom-entity-card
+        entity: sensor.garage_net_battery_power
+        name: Net Battery
+        icon: mdi:battery-charging
+        primary_info: name
+        secondary_info: state
+      - type: custom:mushroom-entity-card
+        entity: sensor.garage_battery_status
+        name: Status
+        icon: mdi:battery
+        primary_info: name
+        secondary_info: state
+
+  - type: custom:mini-graph-card
+    entities:
+      - entity: sensor.victron_smartsolar_mppt_pv_power
+        name: Solar
+        color: '#f5a623'
+      - entity: sensor.victron_smartsolar_mppt_external_load_power
+        name: Load
+        color: '#e74c3c'
+      - entity: sensor.victron_smartsolar_mppt_battery_voltage
+        name: Battery V
+        y_axis: secondary
+        color: '#2ecc71'
+    name: Power History (24h)
+    hours_to_show: 24
+    points_per_hour: 6
+    line_width: 2
+    fill: fade
+    show:
+      labels: true
+      points: false
+      legend: true
+
+  - type: horizontal-stack
+    cards:
+      - type: custom:mushroom-entity-card
+        entity: sensor.victron_smartsolar_mppt_battery_voltage
+        name: Voltage
+        icon: mdi:lightning-bolt
+        primary_info: name
+        secondary_info: state
+      - type: custom:mushroom-entity-card
+        entity: sensor.victron_smartsolar_mppt_battery_current
+        name: Current
+        icon: mdi:current-dc
+        primary_info: name
+        secondary_info: state
+      - type: custom:mushroom-entity-card
+        entity: sensor.victron_smartsolar_mppt_yield_today
+        name: Yield Today
+        icon: mdi:weather-sunny
+        primary_info: name
+        secondary_info: state
+
+  - type: horizontal-stack
+    cards:
+      - type: custom:mushroom-entity-card
+        entity: sensor.victron_smartsolar_mppt_external_load
+        name: Load Current
+        icon: mdi:current-ac
+        primary_info: name
+        secondary_info: state
+      - type: custom:mushroom-entity-card
+        entity: sensor.victron_smartsolar_mppt_external_load_power
+        name: Load Power
+        icon: mdi:lightning-bolt
+        primary_info: name
+        secondary_info: state
+
+  - type: horizontal-stack
+    cards:
+      - type: custom:mushroom-entity-card
+        entity: sensor.victron_smartsolar_mppt_charge_state
+        name: Charge State
+        icon: mdi:ev-station
+        primary_info: name
+        secondary_info: state
+      - type: custom:mushroom-entity-card
+        entity: sensor.victron_smartsolar_mppt_error_code
+        name: Error Code
+        icon: mdi:alert-circle
+        primary_info: name
+        secondary_info: state
