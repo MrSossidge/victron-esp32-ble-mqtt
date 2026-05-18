@@ -137,6 +137,14 @@ static void publishDiscovery() {
       "\"value_template\":\"{{ value_json.error_code | int }}\","
       "\"icon\":\"mdi:alert-circle-outline\"" AVAIL DEV
     },
+    {
+      "homeassistant/sensor/victron_smartsolar_garage/external_load/config",
+      "{\"unique_id\":\"victron_mppt_el\",\"name\":\"External Load\","
+      "\"state_topic\":\"" MQTT_TOPIC_DATA "\","
+      "\"value_template\":\"{{ value_json.external_load_a | float }}\","
+      "\"unit_of_measurement\":\"A\",\"device_class\":\"current\","
+      "\"state_class\":\"measurement\"" AVAIL DEV
+    },
   };
 
   for (auto& s : sensors) {
@@ -164,6 +172,7 @@ static void publishData(const MpptData& d) {
   doc["charge_state"]     = chargeStateName(d.chargeState);
   doc["charge_state_raw"] = d.chargeState;
   doc["error_code"]       = d.errorCode;
+  doc["external_load_a"] = serialized(String(d.externalLoad, 2));
 
   char buf[256];
   serializeJson(doc, buf);

@@ -9,6 +9,7 @@ struct MpptData {
   float    pvPower;         // W  (1W resolution)
   float    yieldToday;      // Wh (10Wh resolution)
   float    pvVoltage;       // V  (not in MPPT advert, always 0)
+  float    externalLoad; 
   uint8_t  chargeState;     // 0=off 3=bulk 4=absorption 5=float etc
   uint8_t  errorCode;       // 0 = no error
   bool     valid;           // false if decryption/parse failed

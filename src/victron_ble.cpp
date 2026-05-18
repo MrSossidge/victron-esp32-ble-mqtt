@@ -116,6 +116,8 @@ MpptData parseVictronMppt(const uint8_t* encKey, const uint8_t* data, size_t len
   int32_t  batI_raw     = reader.readSigned(16);
   uint32_t yieldToday   = reader.readUnsigned(16);
   uint32_t solarPower   = reader.readUnsigned(16);
+  uint32_t extLoad = reader.readUnsigned(9);  // 9 bits, 0.1A/bit
+  result.externalLoad = (extLoad != 0x1FF) ? extLoad / 10.0f : 0.0f;
 
   result.chargeState    = (uint8_t)chargeState;
   result.errorCode      = (uint8_t)chargerError;
