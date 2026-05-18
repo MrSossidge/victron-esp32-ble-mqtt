@@ -145,6 +145,14 @@ static void publishDiscovery() {
       "\"unit_of_measurement\":\"A\",\"device_class\":\"current\","
       "\"state_class\":\"measurement\"" AVAIL DEV
     },
+    {
+      "homeassistant/sensor/victron_smartsolar_garage/external_load_power/config",
+      "{\"unique_id\":\"victron_mppt_elw\",\"name\":\"External Load Power\","
+      "\"state_topic\":\"" MQTT_TOPIC_DATA "\","
+      "\"value_template\":\"{{ value_json.external_load_w | float }}\","
+      "\"unit_of_measurement\":\"W\",\"device_class\":\"power\","
+      "\"state_class\":\"measurement\"" AVAIL DEV
+},
   };
 
   for (auto& s : sensors) {
@@ -164,7 +172,7 @@ static void publishDiscovery() {
 // ── Data Publisher ────────────────────────────────────────────────────────────
 
 static void publishData(const MpptData& d) {
-  StaticJsonDocument<256> doc;
+  StaticJsonDocument<512> doc;
   doc["battery_voltage"]  = serialized(String(d.batteryVoltage, 2));
   doc["battery_current"]  = serialized(String(d.batteryCurrent, 2));
   doc["pv_power"]         = serialized(String(d.pvPower, 1));
@@ -173,6 +181,7 @@ static void publishData(const MpptData& d) {
   doc["charge_state_raw"] = d.chargeState;
   doc["error_code"]       = d.errorCode;
   doc["external_load_a"] = serialized(String(d.externalLoad, 2));
+  doc["external_load_w"] = serialized(String(d.externalLoad * d.batteryVoltage, 1));
 
   char buf[256];
   serializeJson(doc, buf);
