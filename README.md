@@ -231,3 +231,4 @@ Add the `template:` block to your `configuration.yaml` and reload YAML.
 │   └── victron_ble.cpp              # AES decryption and parser
 └── platformio.ini                   # PlatformIO build config
 ```
+<a href="https://www.buymeacoffee.com/MrSossidge" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me a Coffee" style="height: 60px !important;width: 217px !important;" ></a>
